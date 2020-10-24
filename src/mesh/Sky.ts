@@ -22,7 +22,7 @@ class Sky {
 
       // * Angle of Cloud
       const angle = this.stepAngle * i;
-      // * Distance between the center of the axios and the cloud itself
+      // * Distance between the center of the axis and the cloud itself
       const h = 750 + Math.random() * 200;
 
       // * Convert polar coordinates (angle, distance) into Cartesian coordinates (x, y)
