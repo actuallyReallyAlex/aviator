@@ -5,6 +5,7 @@ import Sea from "./mesh/Sea";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
+import Sky from "./mesh/Sky";
 
 class App {
   constructor() {
@@ -17,6 +18,7 @@ class App {
     // * Objects
     this.createLight();
     this.createSea();
+    this.createSky();
 
     // * Helpers
     this.createOrbitControls();
@@ -38,12 +40,15 @@ class App {
   renderer!: WebGLRenderer;
   sea!: Sea;
   scene!: Scene;
+  sky!: Sky;
   stats!: Stats;
 
   addObjectsToScene(): void {
     this.scene.add(this.light.hemisphereLight);
     this.scene.add(this.light.shadowLight);
     this.scene.add(this.sea.mesh);
+    this.scene.add(this.sky.mesh);
+
     this.scene.add(this.helper);
   }
 
@@ -66,6 +71,10 @@ class App {
       farPlane
     );
     this.camera.position.set(0, 200, 100);
+  }
+
+  createSky(): void {
+    this.sky = new Sky();
   }
 
   createHelper(): void {
