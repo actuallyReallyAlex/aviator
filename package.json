@@ -1,0 +1,39 @@
+{
+  "name": "aviator",
+  "version": "0.1.0",
+  "description": "https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && npm run lint && webpack",
+    "clean": "rimraf dist",
+    "lint": "eslint ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexlee-dev/aviator.git"
+  },
+  "author": "Alex Lee",
+  "license": "https://tympanus.net/codrops/licensing/",
+  "bugs": {
+    "url": "https://github.com/alexlee-dev/aviator/issues"
+  },
+  "homepage": "https://github.com/alexlee-dev/aviator#readme",
+  "devDependencies": {
+    "@types/three": "^0.103.2",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "css-loader": "^5.0.0",
+    "eslint": "^7.12.0",
+    "html-webpack-plugin": "^4.5.0",
+    "rimraf": "^3.0.2",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.6",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "three": "^0.121.1"
+  }
+}
