@@ -14,6 +14,7 @@ class Sea {
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.receiveShadow = true;
+    this.mesh.position.y = -600;
   }
 
   geometry!: CylinderGeometry;
