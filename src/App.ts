@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import Light from "./light/Light";
 
 class App {
   constructor() {
@@ -7,12 +8,21 @@ class App {
     this.createCamera();
     this.createRenderer();
     this.appendToContainer();
+    this.createLight();
+
+    this.addObjectsToScene();
     this.setupListeners();
   }
 
   camera!: PerspectiveCamera;
+  light!: Light;
   renderer!: WebGLRenderer;
   scene!: Scene;
+
+  addObjectsToScene(): void {
+    this.scene.add(this.light.hemisphereLight);
+    this.scene.add(this.light.shadowLight);
+  }
 
   appendToContainer(): void {
     const container = document.getElementById("world");
@@ -35,6 +45,10 @@ class App {
     this.camera.position.set(0, 200, 100);
   }
 
+  createLight(): void {
+    this.light = new Light();
+  }
+
   createRenderer(): void {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -52,20 +66,22 @@ class App {
     this.scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
   }
 
-  handleWindowResize(): void {
-    const height = window.innerHeight;
-    const width = window.innerWidth;
-    this.renderer.setSize(width, height);
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-  }
-
   setupListeners(): void {
-    window.addEventListener("resize", this.handleWindowResize, false);
+    window.addEventListener(
+      "resize",
+      () => {
+        const height = window.innerHeight;
+        const width = window.innerWidth;
+        this.renderer.setSize(width, height);
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+      },
+      false
+    );
   }
 
   render(): void {
-    console.log("RENDER");
+    this.renderer.render(this.scene, this.camera);
   }
 }
 
