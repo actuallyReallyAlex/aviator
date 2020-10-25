@@ -1,5 +1,11 @@
 import * as THREE from "three";
-import { GridHelper, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import {
+  GridHelper,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from "three";
 import Light from "./light/Light";
 import Sea from "./mesh/Sea";
 
@@ -7,10 +13,42 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
 import Sky from "./mesh/Sky";
 import Airplane from "./mesh/Airplane";
-import { normalize } from "./uti";
+// import { normalize } from "./uti";
+import { GUIParams } from "./types";
+import ApplicationGUI from "./GUI";
 
 class App {
   constructor() {
+    // * Params
+    this.params = {
+      editMode: false,
+      meshToEdit: "engine",
+      _0x: 30,
+      _0y: 20,
+      _0z: 25,
+      _1x: 30,
+      _1y: 20,
+      _1z: -25,
+      _2x: 10,
+      _2y: -15,
+      _2z: 25,
+      _3x: 10,
+      _3y: -15,
+      _3z: -25,
+      _4x: -25,
+      _4y: 25,
+      _4z: -25,
+      _5x: -25,
+      _5y: 25,
+      _5z: 25,
+      _6x: -25,
+      _6y: -25,
+      _6z: -25,
+      _7x: -25,
+      _7y: -25,
+      _7z: 25,
+    };
+
     // * Base
     this.createScene();
     this.createCamera();
@@ -22,12 +60,14 @@ class App {
     this.createSea();
     this.createSky();
     this.createAirplane();
+    this.createEditMesh();
 
     // * Helpers
-    this.orbitControls = null;
-    // this.createOrbitControls();
+    // this.orbitControls = null;
+    this.createOrbitControls();
     this.createStats();
     this.createHelper();
+    this.gui = new ApplicationGUI(this);
 
     // * Other
     this.addObjectsToScene();
@@ -39,10 +79,14 @@ class App {
 
   airplane!: Airplane;
   camera!: PerspectiveCamera;
+  editMesh!: Object3D;
+  editMeshGeometry!: any;
+  gui: ApplicationGUI;
   helper!: GridHelper;
   light!: Light;
   mousePosition!: { x: number; y: number };
-  orbitControls: OrbitControls | null;
+  orbitControls!: OrbitControls | null;
+  params: GUIParams;
   renderer!: WebGLRenderer;
   sea!: Sea;
   scene!: Scene;
@@ -66,8 +110,6 @@ class App {
 
   createAirplane(): void {
     this.airplane = new Airplane();
-    this.airplane.mesh.scale.set(0.25, 0.25, 0.25);
-    this.airplane.mesh.position.y = 100;
   }
 
   createCamera(): void {
@@ -84,6 +126,10 @@ class App {
       farPlane
     );
     this.camera.position.set(0, 100, 200);
+  }
+
+  createEditMesh(): void {
+    this.editMesh = new THREE.Object3D();
   }
 
   createSky(): void {
@@ -149,9 +195,9 @@ class App {
     document.addEventListener(
       "mousemove",
       (event) => {
-        const tx = -1 + (event.clientX / window.innerWidth) * 2;
-        const ty = 1 - (event.clientY / window.innerHeight) * 2;
-        this.mousePosition = { x: tx, y: ty };
+        // const tx = -1 + (event.clientX / window.innerWidth) * 2;
+        // const ty = 1 - (event.clientY / window.innerHeight) * 2;
+        // this.mousePosition = { x: tx, y: ty };
       },
       false
     );
@@ -171,14 +217,14 @@ class App {
   }
 
   update(): void {
-    // * Update plane
-    const targetX = normalize(this.mousePosition.x, -1, 1, -100, 100);
-    const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
-    this.airplane.mesh.position.setY(targetY);
-    this.airplane.mesh.position.setX(targetX);
+    // // * Update plane
+    // const targetX = normalize(this.mousePosition.x, -1, 1, -100, 100);
+    // const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
+    // this.airplane.mesh.position.setY(targetY);
+    // this.airplane.mesh.position.setX(targetX);
 
     // * Update propeller
-    this.airplane.propeller.rotation.x += 0.3;
+    // this.airplane.propeller.rotation.x += 0.3;
 
     // * Update Sea
     this.sea.mesh.rotation.z += 0.005;
