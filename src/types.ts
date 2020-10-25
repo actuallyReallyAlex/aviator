@@ -10,6 +10,7 @@ export interface ApplicationInput {
 
 export interface GUIParams {
   editMode: boolean;
+  exportValues: any;
   meshToEdit: "blade" | "cockpit" | "engine" | "propeller" | "tail" | "wing";
   _0x?: number;
   _0y?: number;

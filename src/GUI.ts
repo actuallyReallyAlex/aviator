@@ -171,6 +171,9 @@ class ApplicationGUI {
         })
         .name("Mesh To Edit")
         .onChange(this.handlers.meshToEditChangeHandler);
+      this.gui
+        .add(this.application.params, "exportValues")
+        .name("Export Values");
     }
     this.inputs.forEach((input) => {
       const inputElement = this.gui.add(

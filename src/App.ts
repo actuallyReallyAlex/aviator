@@ -22,6 +22,9 @@ class App {
     // * Params
     this.params = {
       editMode: false,
+      exportValues: () => {
+        alert("EXPORT VALUES");
+      },
       meshToEdit: "engine",
       _0x: 30,
       _0y: 20,
