@@ -7,7 +7,7 @@ import Airplane from "./mesh/Airplane";
 
 import { ApplicationInput } from "./types";
 
-// TODO - Have verticies on meshToEditGeometry actually update when the sliders move
+// TODO - Copy Output to clipboard
 class ApplicationGUI {
   constructor(application: App) {
     this.application = application;
@@ -70,6 +70,7 @@ class ApplicationGUI {
 
   createVertexInputs(): void {
     // TODO - Do the modulo way of this
+    // TODO - Ask about this in Slack
     // const xPoints = [0, 3, 6, 9, 12, 15, 18, 21]
     // const _0nums = [0, 1, 2];
     const _1nums = [3, 4, 5];
@@ -113,9 +114,8 @@ class ApplicationGUI {
         folder: null,
         name: `_${num}${point}`,
         onChange: (value: number) => {
-          console.log({ value });
-          // this.application.airplane.engineGeometry.vertices[0].x = value;
-          // this.application.airplane.engineGeometry.verticesNeedUpdate = true;
+          this.application.editMeshGeometry.vertices[num][point] = value;
+          this.application.editMeshGeometry.verticesNeedUpdate = true;
         },
         paramKey: `_${num}${point}`,
         value: -100,
