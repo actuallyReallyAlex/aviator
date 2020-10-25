@@ -14,11 +14,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
 import Sky from "./mesh/Sky";
 import Airplane from "./mesh/Airplane";
-// import { normalize } from "./uti";
+import { normalize } from "./uti";
 import { GUIParams } from "./types";
 import ApplicationGUI from "./GUI";
 
-// TODO - Add a "track mouse movement" param and make it functional
 class App {
   constructor() {
     // * Params
@@ -34,6 +33,7 @@ class App {
         copy(code.join("\n"), { format: "text/plain" });
       },
       meshToEdit: "engine",
+      trackMouseMovement: false,
       _0x: 30,
       _0y: 20,
       _0z: 25,
@@ -203,15 +203,6 @@ class App {
       },
       false
     );
-    document.addEventListener(
-      "mousemove",
-      (event) => {
-        // const tx = -1 + (event.clientX / window.innerWidth) * 2;
-        // const ty = 1 - (event.clientY / window.innerHeight) * 2;
-        // this.mousePosition = { x: tx, y: ty };
-      },
-      false
-    );
   }
 
   render(): void {
@@ -228,14 +219,18 @@ class App {
   }
 
   update(): void {
-    // // * Update plane
-    // const targetX = normalize(this.mousePosition.x, -1, 1, -100, 100);
-    // const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
-    // this.airplane.mesh.position.setY(targetY);
-    // this.airplane.mesh.position.setX(targetX);
+    // * Update plane
+    if (this.params.trackMouseMovement) {
+      const targetX = normalize(this.mousePosition.x, -1, 1, -100, 100);
+      const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
+      this.airplane.mesh.position.setY(targetY);
+      this.airplane.mesh.position.setX(targetX);
+    }
 
     // * Update propeller
-    // this.airplane.propeller.rotation.x += 0.3;
+    if (!this.params.editMode) {
+      this.airplane.propeller.rotation.x += 0.3;
+    }
 
     // * Update Sea
     this.sea.mesh.rotation.z += 0.005;

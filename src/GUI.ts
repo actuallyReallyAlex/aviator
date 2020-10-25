@@ -13,6 +13,8 @@ class ApplicationGUI {
     this.handlers = {
       editModeChangeHandler: (editModeValue: boolean): void => {
         if (editModeValue) {
+          this.resetGUI();
+
           this.tearDownScene();
           this.createEditMesh();
           this.updateVertexParams();
@@ -32,9 +34,17 @@ class ApplicationGUI {
         this.createVertexInputs();
         this.initializeGUI();
       },
+      trackMouseMovementListener: (event: MouseEvent): void => {
+        const tx = -1 + (event.clientX / window.innerWidth) * 2;
+        const ty = 1 - (event.clientY / window.innerHeight) * 2;
+        this.application.mousePosition = { x: tx, y: ty };
+      },
     };
     this.gui = new GUI();
     this.addEditModeInput();
+    if (!this.application.params.editMode) {
+      this.addTrackMouseMovementInput();
+    }
     this.inputs = [];
     this.initializeGUI();
   }
@@ -44,15 +54,36 @@ class ApplicationGUI {
   handlers: {
     editModeChangeHandler: (editModeValue: boolean) => void;
     meshToEditChangeHandler: (meshToEditValue: string) => void;
+    trackMouseMovementListener: (event: MouseEvent) => void;
   };
   inputs: ApplicationInput[];
 
-  // TODO - make a handlers attribute
   addEditModeInput(): void {
     this.gui
       .add(this.application.params, "editMode")
       .name("Edit Mode")
       .onChange(this.handlers.editModeChangeHandler);
+  }
+
+  addTrackMouseMovementInput(): void {
+    this.gui
+      .add(this.application.params, "trackMouseMovement")
+      .name("Track Mouse Movement")
+      .onChange((trackMouseMovementValue: boolean) => {
+        if (trackMouseMovementValue) {
+          document.addEventListener(
+            "mousemove",
+            this.handlers.trackMouseMovementListener,
+            false
+          );
+        } else {
+          document.removeEventListener(
+            "mousemove",
+            this.handlers.trackMouseMovementListener
+          );
+          this.application.airplane.mesh.position.set(0, 100, 0);
+        }
+      });
   }
 
   createEditMesh(): void {
@@ -190,6 +221,9 @@ class ApplicationGUI {
     this.gui.destroy();
     this.gui = new GUI();
     this.addEditModeInput();
+    if (!this.application.params.editMode) {
+      this.addTrackMouseMovementInput();
+    }
     this.inputs = [];
   }
 

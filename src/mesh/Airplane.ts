@@ -14,7 +14,7 @@ class Airplane {
     this.createBlade();
     this.createPropeller();
     this.mesh.scale.set(0.25, 0.25, 0.25);
-    this.mesh.position.set(0, 0, 0);
+    this.mesh.position.set(0, 100, 0);
   }
 
   blade!: Mesh;
