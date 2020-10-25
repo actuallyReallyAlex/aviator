@@ -7,7 +7,6 @@ import Airplane from "./mesh/Airplane";
 
 import { ApplicationInput } from "./types";
 
-// TODO - Copy Output to clipboard
 class ApplicationGUI {
   constructor(application: App) {
     this.application = application;
