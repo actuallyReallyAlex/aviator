@@ -1,3 +1,4 @@
+import copy from "copy-to-clipboard";
 import * as THREE from "three";
 import {
   GridHelper,
@@ -17,13 +18,20 @@ import Airplane from "./mesh/Airplane";
 import { GUIParams } from "./types";
 import ApplicationGUI from "./GUI";
 
+// TODO - Add a "track mouse movement" param and make it functional
 class App {
   constructor() {
     // * Params
     this.params = {
       editMode: false,
       exportValues: () => {
-        alert("EXPORT VALUES");
+        const code = [];
+        for (let i = 0; i < 8; i++) {
+          code.push(
+            `geometry.verticies[${i}].set(${this.editMeshGeometry.vertices[i].x}, ${this.editMeshGeometry.vertices[i].y}, ${this.editMeshGeometry.vertices[i].z});`
+          );
+        }
+        copy(code.join("\n"), { format: "text/plain" });
       },
       meshToEdit: "engine",
       _0x: 30,
