@@ -76,8 +76,8 @@ class App {
     this.createPilot();
 
     // * Helpers
-    // this.orbitControls = null;
-    this.createOrbitControls();
+    this.orbitControls = null;
+    // this.createOrbitControls();
     this.createStats();
     this.createHelper();
     this.gui = new ApplicationGUI(this);
@@ -169,6 +169,7 @@ class App {
   }
 
   createPilot(): void {
+    // TODO - Abstract Pilot into Airplane so you don't have to update both positions/rotations/etc
     this.pilot = new Pilot();
   }
 
@@ -230,12 +231,43 @@ class App {
   update(): void {
     // * Update plane
     if (this.params.trackMouseMovement) {
-      const targetX = normalize(this.mousePosition.x, -1, 1, -100, 100);
-      const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
-      this.airplane.mesh.position.setY(targetY);
+      // * Calculate Targets
+      const targetX = normalize(this.mousePosition.x, -0.75, 0.75, -100, 100);
+      const targetY = normalize(this.mousePosition.y, -0.75, 0.75, 25, 175);
+
+      // * Update Airplane Position
       this.airplane.mesh.position.setX(targetX);
-      this.pilot.mesh.position.setY(targetY + 15);
+      this.airplane.mesh.position.setY(
+        this.airplane.mesh.position.y +
+          (targetY - this.airplane.mesh.position.y) * 0.1
+      );
+      // * Update Airplane Rotation
+      this.airplane.mesh.rotation.x =
+        (this.airplane.mesh.position.y - targetY) * 0.0064;
+      this.airplane.mesh.rotation.z =
+        (targetY - this.airplane.mesh.position.y) * 0.0128;
+
+      // * Update Pilot Position
+      this.pilot.mesh.position.setY(
+        this.airplane.mesh.position.y +
+          (targetY - this.airplane.mesh.position.y) * 0.1 +
+          15
+      );
       this.pilot.mesh.position.setX(targetX);
+      // * Update Pilot Rotation
+      this.pilot.mesh.rotation.x =
+        (this.airplane.mesh.position.y - targetY) * 0.0064;
+      this.pilot.mesh.rotation.z =
+        (targetY - this.airplane.mesh.position.y) * 0.0128;
+
+      // // Move the plane at each frame by adding a fraction of the remaining distance
+      // airplane.mesh.position.y += (targetY - airplane.mesh.position.y) * 0.1;
+
+      // // Rotate the plane proportionally to the remaining distance
+      // airplane.mesh.rotation.z = (targetY - airplane.mesh.position.y) * 0.0128;
+      // airplane.mesh.rotation.x = (airplane.mesh.position.y - targetY) * 0.0064;
+
+      // airplane.propeller.rotation.x += 0.3;
     }
 
     // * Update propeller
