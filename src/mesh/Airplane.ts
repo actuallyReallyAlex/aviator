@@ -42,6 +42,14 @@ class Airplane {
   createCockpit(): void {
     // const basicGeometry = new THREE.BoxGeometry(60, 50, 50, 1, 1, 1);
     const enhancedGeometry = new THREE.BoxGeometry(80, 50, 50, 1, 1, 1);
+    enhancedGeometry.vertices[0].set(41, 35, 25);
+    enhancedGeometry.vertices[1].set(40, 34.717895465559025, -25);
+    enhancedGeometry.vertices[2].set(40, -25, 25);
+    enhancedGeometry.vertices[3].set(40, -25, -25);
+    enhancedGeometry.vertices[4].set(-40, 20, -25);
+    enhancedGeometry.vertices[5].set(-40, 20, 25);
+    enhancedGeometry.vertices[6].set(-40, -25, -25);
+    enhancedGeometry.vertices[7].set(-40, -25, 25);
     const material = new THREE.MeshPhongMaterial({
       color: colors.blue,
       flatShading: true,
@@ -69,7 +77,7 @@ class Airplane {
       flatShading: true,
     });
     const engine = new THREE.Mesh(geometry, material);
-    engine.position.setX(40);
+    engine.position.setX(65);
     engine.castShadow = true;
     engine.receiveShadow = true;
     this.engine = engine;

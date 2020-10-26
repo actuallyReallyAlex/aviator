@@ -27,7 +27,7 @@ class App {
         const code = [];
         for (let i = 0; i < 8; i++) {
           code.push(
-            `geometry.verticies[${i}].set(${this.editMeshGeometry.vertices[i].x}, ${this.editMeshGeometry.vertices[i].y}, ${this.editMeshGeometry.vertices[i].z});`
+            `geometry.vertices[${i}].set(${this.editMeshGeometry.vertices[i].x}, ${this.editMeshGeometry.vertices[i].y}, ${this.editMeshGeometry.vertices[i].z});`
           );
         }
         copy(code.join("\n"), { format: "text/plain" });
