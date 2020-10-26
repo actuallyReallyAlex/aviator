@@ -233,6 +233,8 @@ class App {
       const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
       this.airplane.mesh.position.setY(targetY);
       this.airplane.mesh.position.setX(targetX);
+      this.pilot.mesh.position.setY(targetY + 15);
+      this.pilot.mesh.position.setX(targetX);
     }
 
     // * Update propeller
