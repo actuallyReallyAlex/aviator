@@ -17,6 +17,7 @@ import Airplane from "./mesh/Airplane";
 import { normalize } from "./uti";
 import { GUIParams } from "./types";
 import ApplicationGUI from "./GUI";
+import Pilot from "./mesh/Pilot";
 
 class App {
   constructor() {
@@ -72,6 +73,7 @@ class App {
     this.createSky();
     this.createAirplane();
     this.createEditMesh();
+    this.createPilot();
 
     // * Helpers
     // this.orbitControls = null;
@@ -98,6 +100,7 @@ class App {
   mousePosition!: { x: number; y: number };
   orbitControls!: OrbitControls | null;
   params: GUIParams;
+  pilot!: Pilot;
   renderer!: WebGLRenderer;
   sea!: Sea;
   scene!: Scene;
@@ -110,6 +113,7 @@ class App {
     this.scene.add(this.sea.mesh);
     this.scene.add(this.sky.mesh);
     this.scene.add(this.airplane.mesh);
+    this.scene.add(this.pilot.mesh);
 
     this.scene.add(this.helper);
   }
@@ -161,6 +165,10 @@ class App {
       this.camera,
       this.renderer.domElement
     );
+  }
+
+  createPilot(): void {
+    this.pilot = new Pilot();
   }
 
   createRenderer(): void {
@@ -225,6 +233,8 @@ class App {
       const targetY = normalize(this.mousePosition.y, -1, 1, 25, 175);
       this.airplane.mesh.position.setY(targetY);
       this.airplane.mesh.position.setX(targetX);
+      this.pilot.mesh.position.setY(targetY + 15);
+      this.pilot.mesh.position.setX(targetX);
     }
 
     // * Update propeller
@@ -237,6 +247,9 @@ class App {
 
     // * Update Sky
     this.sky.mesh.rotation.z += 0.01;
+
+    // * Update pilot hair
+    this.pilot.updateHairs();
   }
 }
 
