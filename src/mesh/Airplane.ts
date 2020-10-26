@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { BoxGeometry, Mesh, Object3D } from "three";
 
 import { colors } from "../constants";
+import Pilot from "./Pilot";
 
 class Airplane {
   constructor() {
@@ -12,6 +13,7 @@ class Airplane {
     this.createTail();
     this.createWing();
     this.createBlade();
+    this.createPilot();
     this.createPropeller();
     this.mesh.scale.set(0.25, 0.25, 0.25);
     this.mesh.position.set(0, 100, 0);
@@ -22,6 +24,7 @@ class Airplane {
   engine!: Mesh;
   engineGeometry!: BoxGeometry;
   mesh!: Object3D;
+  pilot!: Pilot;
   propeller!: Mesh;
   tail!: Mesh;
   wing!: Mesh;
@@ -83,6 +86,11 @@ class Airplane {
     this.engine = engine;
     this.engineGeometry = geometry;
     this.mesh.add(this.engine);
+  }
+
+  createPilot(): void {
+    this.pilot = new Pilot();
+    this.mesh.add(this.pilot.mesh);
   }
 
   createPropeller(): void {

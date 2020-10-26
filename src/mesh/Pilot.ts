@@ -6,9 +6,9 @@ class Pilot {
   constructor() {
     this.mesh = new THREE.Object3D();
     this.mesh.name = "pilot";
-    this.mesh.position.set(0, 115, 0);
+    this.mesh.position.set(0, 45, 0);
 
-    this.angleHaris = 0;
+    this.angleHairs = 0;
 
     this.createBody();
     this.createFace();
@@ -18,7 +18,7 @@ class Pilot {
     this.createEars();
   }
 
-  angleHaris!: number;
+  angleHairs!: number;
   body!: Mesh;
   face!: Mesh;
   hair!: Mesh;
@@ -144,10 +144,10 @@ class Pilot {
     for (let i = 0; i < hairs.length; i++) {
       const hair = hairs[i];
       // * Each hairr element will scale on a cyclical basis between 75% and 100% of it's original size
-      hair.scale.y = 0.75 + Math.cos(this.angleHaris + i / 3) * 0.25;
+      hair.scale.y = 0.75 + Math.cos(this.angleHairs + i / 3) * 0.25;
     }
 
-    this.angleHaris += 0.16;
+    this.angleHairs += 0.16;
   }
 }
 
