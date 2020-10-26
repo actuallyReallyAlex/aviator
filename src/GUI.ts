@@ -4,7 +4,6 @@ import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 
 import App from "./App";
 import Airplane from "./mesh/Airplane";
-import Pilot from './mesh/Pilot';
 
 import { ApplicationInput } from "./types";
 
@@ -83,7 +82,6 @@ class ApplicationGUI {
             this.handlers.trackMouseMovementListener
           );
           this.application.airplane.mesh.position.set(0, 100, 0);
-          this.application.pilot.mesh.position.set(0, 115, 0);
         }
       });
   }
@@ -234,11 +232,9 @@ class ApplicationGUI {
     // ? this.application.editMesh = null;
     this.application.scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
     this.application.airplane = new Airplane();
-    this.application.pilot = new Pilot()
     this.application.scene.add(this.application.airplane.mesh);
     this.application.scene.add(this.application.sea.mesh);
     this.application.scene.add(this.application.sky.mesh);
-    this.application.scene.add(this.application.pilot.mesh);
   }
 
   tearDownScene(): void {
@@ -246,7 +242,6 @@ class ApplicationGUI {
     this.application.scene.remove(this.application.airplane.mesh);
     this.application.scene.remove(this.application.sea.mesh);
     this.application.scene.remove(this.application.sky.mesh);
-    this.application.scene.remove(this.application.pilot.mesh);
   }
 
   updateVertexParams(): void {
