@@ -250,6 +250,9 @@ class App {
 
     // * Update pilot hair
     this.pilot.updateHairs();
+
+    // * Update waves
+    this.sea.moveWaves();
   }
 }
 

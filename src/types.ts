@@ -47,3 +47,12 @@ export interface Colors {
   brownDark: 0x23190f;
   blue: 0x68c3c0;
 }
+
+export interface WaveInformation {
+  angle: number;
+  amplitude: number;
+  speed: number;
+  x: number;
+  y: number;
+  z: number;
+}
