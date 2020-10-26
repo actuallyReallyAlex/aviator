@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Mesh, Object3D } from "three";
+import { BoxGeometry, Mesh, Object3D } from "three";
 
 import { colors } from "../constants";
 
@@ -13,11 +13,14 @@ class Airplane {
     this.createWing();
     this.createBlade();
     this.createPropeller();
+    this.mesh.scale.set(0.25, 0.25, 0.25);
+    this.mesh.position.set(0, 100, 0);
   }
 
   blade!: Mesh;
   cockpit!: Mesh;
   engine!: Mesh;
+  engineGeometry!: BoxGeometry;
   mesh!: Object3D;
   propeller!: Mesh;
   tail!: Mesh;
@@ -37,12 +40,22 @@ class Airplane {
   }
 
   createCockpit(): void {
-    const geometry = new THREE.BoxGeometry(60, 50, 50, 1, 1, 1);
+    // const basicGeometry = new THREE.BoxGeometry(60, 50, 50, 1, 1, 1);
+    const enhancedGeometry = new THREE.BoxGeometry(80, 50, 50, 1, 1, 1);
+    enhancedGeometry.vertices[0].set(41, 35, 25);
+    enhancedGeometry.vertices[1].set(40, 34.717895465559025, -25);
+    enhancedGeometry.vertices[2].set(40, -25, 25);
+    enhancedGeometry.vertices[3].set(40, -25, -25);
+    enhancedGeometry.vertices[4].set(-40, 20, -25);
+    enhancedGeometry.vertices[5].set(-40, 20, 25);
+    enhancedGeometry.vertices[6].set(-40, -25, -25);
+    enhancedGeometry.vertices[7].set(-40, -25, 25);
     const material = new THREE.MeshPhongMaterial({
-      color: colors.red,
+      color: colors.blue,
       flatShading: true,
     });
-    const cockpit = new THREE.Mesh(geometry, material);
+
+    const cockpit = new THREE.Mesh(enhancedGeometry, material);
     cockpit.castShadow = true;
     cockpit.receiveShadow = true;
     this.cockpit = cockpit;
@@ -50,16 +63,25 @@ class Airplane {
   }
 
   createEngine(): void {
-    const geometry = new THREE.BoxGeometry(20, 50, 50, 1, 1, 1);
+    const geometry = new THREE.BoxGeometry(50, 50, 50, 1, 1, 1);
+    geometry.vertices[0].set(30, 20, 25);
+    geometry.vertices[1].set(30, 20, -25);
+    geometry.vertices[2].set(10, -15, 25);
+    geometry.vertices[3].set(10, -15, -25);
+    geometry.vertices[4].set(-25, 25, -25);
+    geometry.vertices[5].set(-25, 25, 25);
+    geometry.vertices[6].set(-25, -25, -25);
+    geometry.vertices[7].set(-25, -25, 25);
     const material = new THREE.MeshPhongMaterial({
       color: colors.white,
       flatShading: true,
     });
     const engine = new THREE.Mesh(geometry, material);
-    engine.position.setX(40);
+    engine.position.setX(65);
     engine.castShadow = true;
     engine.receiveShadow = true;
     this.engine = engine;
+    this.engineGeometry = geometry;
     this.mesh.add(this.engine);
   }
 
