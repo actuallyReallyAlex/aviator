@@ -1,14 +1,21 @@
 import * as THREE from "three";
-import { DirectionalLight, HemisphereLight } from "three";
+import { AmbientLight, DirectionalLight, HemisphereLight } from "three";
 
 class Light {
   constructor() {
     this.createHemisphereLight();
     this.createShadowLight();
+    this.createAmbientLight();
   }
 
+  ambientLight!: AmbientLight;
   hemisphereLight!: HemisphereLight;
   shadowLight!: DirectionalLight;
+
+  createAmbientLight(): void {
+    // * An ambient light modifies the global color of a scene and makes the shadows softer
+    this.ambientLight = new THREE.AmbientLight(0xe0199a, 0.25);
+  }
 
   createHemisphereLight(): void {
     this.hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);

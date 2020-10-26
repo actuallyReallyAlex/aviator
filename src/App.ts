@@ -110,6 +110,7 @@ class App {
   addObjectsToScene(): void {
     this.scene.add(this.light.hemisphereLight);
     this.scene.add(this.light.shadowLight);
+    this.scene.add(this.light.ambientLight);
     this.scene.add(this.sea.mesh);
     this.scene.add(this.sky.mesh);
     this.scene.add(this.airplane.mesh);
