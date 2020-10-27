@@ -7,10 +7,11 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 import Light from "./light/Light";
 import Sea from "./mesh/Sea";
 
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
 import Sky from "./mesh/Sky";
 import Airplane from "./mesh/Airplane";
@@ -75,7 +76,6 @@ class App {
 
     // * Helpers
     this.orbitControls = null;
-    // this.createOrbitControls();
     this.createStats();
     this.createHelper();
     this.gui = new ApplicationGUI(this);
@@ -93,7 +93,7 @@ class App {
   editMesh!: Object3D;
   editMeshGeometry!: any;
   gui: ApplicationGUI;
-  helper!: GridHelper;
+  helper!: GridHelper | null;
   light!: Light;
   mousePosition!: { x: number; y: number };
   orbitControls!: OrbitControls | null;
@@ -111,8 +111,6 @@ class App {
     this.scene.add(this.sea.mesh);
     this.scene.add(this.sky.mesh);
     this.scene.add(this.airplane.mesh);
-
-    this.scene.add(this.helper);
   }
 
   appendToContainer(): void {
@@ -151,17 +149,11 @@ class App {
   createHelper(): void {
     this.helper = new THREE.GridHelper(2000, 100);
     this.helper.position.y = -199;
+    this.editMesh.add(this.helper);
   }
 
   createLight(): void {
     this.light = new Light();
-  }
-
-  createOrbitControls(): void {
-    this.orbitControls = new OrbitControls(
-      this.camera,
-      this.renderer.domElement
-    );
   }
 
   createRenderer(): void {

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { BufferGeometry, Geometry, Material, Mesh } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module.js";
 
 import App from "./App";
@@ -19,9 +20,20 @@ class ApplicationGUI {
           this.createEditMesh();
           this.updateVertexParams();
           this.createVertexInputs();
+
+          this.application.orbitControls = new OrbitControls(
+            this.application.camera,
+            this.application.renderer.domElement
+          );
+          this.application.createHelper();
         } else {
           this.resetScene();
           this.resetGUI();
+          if (this.application.orbitControls) {
+            this.application.orbitControls.enabled = false;
+            this.application.orbitControls.reset();
+          }
+          this.application.camera.rotation.set(0, 0, 0);
         }
 
         this.initializeGUI();
