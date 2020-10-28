@@ -34,6 +34,7 @@ class App {
         copy(code.join("\n"), { format: "text/plain" });
       },
       meshToEdit: "engine",
+      orbitCamera: false,
       trackMouseMovement: false,
       _0x: 30,
       _0y: 20,

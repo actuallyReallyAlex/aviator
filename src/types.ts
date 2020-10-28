@@ -12,6 +12,7 @@ export interface GUIParams {
   editMode: boolean;
   exportValues: () => void;
   meshToEdit: "blade" | "cockpit" | "engine" | "propeller" | "tail" | "wing";
+  orbitCamera: boolean;
   trackMouseMovement: boolean;
   _0x?: number;
   _0y?: number;

@@ -56,6 +56,7 @@ class ApplicationGUI {
     this.addEditModeInput();
     if (!this.application.params.editMode) {
       this.addTrackMouseMovementInput();
+      this.addOrbitCameraInput();
     }
     this.inputs = [];
     this.initializeGUI();
@@ -75,6 +76,28 @@ class ApplicationGUI {
       .add(this.application.params, "editMode")
       .name("Edit Mode")
       .onChange(this.handlers.editModeChangeHandler);
+  }
+
+  addOrbitCameraInput(): void {
+    this.gui
+      .add(this.application.params, "orbitCamera")
+      .name("Orbit Camera")
+      .onChange((orbitCameraValue: boolean) => {
+        if (orbitCameraValue) {
+          this.application.orbitControls = new OrbitControls(
+            this.application.camera,
+            this.application.renderer.domElement
+          );
+          this.application.orbitControls.target.set(0, 100, 0);
+          this.application.orbitControls.update();
+        } else {
+          if (this.application.orbitControls) {
+            this.application.orbitControls.enabled = false;
+            this.application.orbitControls.reset();
+          }
+          this.application.camera.rotation.set(0, 0, 0);
+        }
+      });
   }
 
   addTrackMouseMovementInput(): void {
@@ -176,6 +199,7 @@ class ApplicationGUI {
         name: "engine",
         mesh: this.application.airplane.engine,
       },
+      { name: "noseCone", mesh: this.application.airplane.noseCone },
       {
         name: "propeller",
         mesh: this.application.airplane.propeller,
@@ -206,6 +230,7 @@ class ApplicationGUI {
           blade: "blade",
           cockpit: "cockpit",
           engine: "engine",
+          noseCone: "noseCone",
           propeller: "propeller",
           tail: "tail",
           wing: "wing",
