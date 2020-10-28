@@ -11,7 +11,14 @@ export interface ApplicationInput {
 export interface GUIParams {
   editMode: boolean;
   exportValues: () => void;
-  meshToEdit: "blade" | "cockpit" | "engine" | "propeller" | "tail" | "wing";
+  meshToEdit:
+    | "blade"
+    | "cockpit"
+    | "engineBottom"
+    | "engineTop"
+    | "propeller"
+    | "tail"
+    | "wing";
   orbitCamera: boolean;
   trackMouseMovement: boolean;
   _0x?: number;

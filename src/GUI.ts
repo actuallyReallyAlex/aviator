@@ -25,7 +25,6 @@ class ApplicationGUI {
             this.application.camera,
             this.application.renderer.domElement
           );
-          this.application.createHelper();
         } else {
           this.resetScene();
           this.resetGUI();
@@ -129,6 +128,10 @@ class ApplicationGUI {
     this.application.editMesh.add(selectedMesh);
     // * Need editMeshGeometry to update vertices from params
     this.application.editMeshGeometry = selectedMesh.geometry;
+    // * Add Helper
+    const helper = new THREE.GridHelper(2000, 100);
+    helper.position.y = -199;
+    this.application.editMesh.add(helper);
     this.application.scene.add(this.application.editMesh);
   }
 
@@ -196,8 +199,12 @@ class ApplicationGUI {
         mesh: this.application.airplane.cockpit,
       },
       {
-        name: "engine",
-        mesh: this.application.airplane.engine,
+        name: "engineBottom",
+        mesh: this.application.airplane.engineBottom,
+      },
+      {
+        name: "engineTop",
+        mesh: this.application.airplane.engineTop,
       },
       { name: "noseCone", mesh: this.application.airplane.noseCone },
       {
@@ -229,7 +236,8 @@ class ApplicationGUI {
         .add(this.application.params, "meshToEdit", {
           blade: "blade",
           cockpit: "cockpit",
-          engine: "engine",
+          engineBottom: "engineBottom",
+          engineTop: "engineTop",
           noseCone: "noseCone",
           propeller: "propeller",
           tail: "tail",
@@ -259,6 +267,7 @@ class ApplicationGUI {
     this.addEditModeInput();
     if (!this.application.params.editMode) {
       this.addTrackMouseMovementInput();
+      this.addOrbitCameraInput();
     }
     this.inputs = [];
   }

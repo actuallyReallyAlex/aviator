@@ -1,12 +1,6 @@
 import copy from "copy-to-clipboard";
 import * as THREE from "three";
-import {
-  GridHelper,
-  Object3D,
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-} from "three";
+import { Object3D, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import Light from "./light/Light";
@@ -33,7 +27,7 @@ class App {
         }
         copy(code.join("\n"), { format: "text/plain" });
       },
-      meshToEdit: "engine",
+      meshToEdit: "propeller",
       orbitCamera: false,
       trackMouseMovement: false,
       _0x: 30,
@@ -78,7 +72,6 @@ class App {
     // * Helpers
     this.orbitControls = null;
     this.createStats();
-    this.createHelper();
     this.gui = new ApplicationGUI(this);
 
     // * Other
@@ -94,7 +87,6 @@ class App {
   editMesh!: Object3D;
   editMeshGeometry!: any;
   gui: ApplicationGUI;
-  helper!: GridHelper | null;
   light!: Light;
   mousePosition!: { x: number; y: number };
   orbitControls!: OrbitControls | null;
@@ -145,12 +137,6 @@ class App {
 
   createSky(): void {
     this.sky = new Sky();
-  }
-
-  createHelper(): void {
-    this.helper = new THREE.GridHelper(2000, 100);
-    this.helper.position.y = -199;
-    this.editMesh.add(this.helper);
   }
 
   createLight(): void {

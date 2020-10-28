@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BoxGeometry, Mesh, Object3D } from "three";
+import { Mesh, Object3D } from "three";
 
 import { colors } from "../constants";
 import Pilot from "./Pilot";
@@ -22,8 +22,9 @@ class Airplane {
 
   blade!: Mesh;
   cockpit!: Mesh;
-  engine!: Mesh;
-  engineGeometry!: BoxGeometry;
+  engine!: Object3D;
+  engineBottom!: Mesh;
+  engineTop!: Mesh;
   mesh!: Object3D;
   noseCone!: Mesh;
   pilot!: Pilot;
@@ -42,7 +43,7 @@ class Airplane {
     this.noseCone.position.set(150, 0, 0);
     this.noseCone.castShadow = true;
     this.noseCone.receiveShadow = true;
-    // this.noseCone.rotation.z = 0.25;
+    
     geometry.vertices[0].set(10, 0, 0);
     geometry.vertices[1].set(10, 0, 0);
     geometry.vertices[2].set(10, 0, 0);
@@ -91,25 +92,54 @@ class Airplane {
   }
 
   createEngine(): void {
-    const geometry = new THREE.BoxGeometry(50, 50, 50, 1, 1, 1);
-    geometry.vertices[0].set(30, 20, 25);
-    geometry.vertices[1].set(30, 20, -25);
-    geometry.vertices[2].set(10, -15, 25);
-    geometry.vertices[3].set(10, -15, -25);
-    geometry.vertices[4].set(-25, 25, -25);
-    geometry.vertices[5].set(-25, 25, 25);
-    geometry.vertices[6].set(-25, -25, -25);
-    geometry.vertices[7].set(-25, -25, 25);
-    const material = new THREE.MeshPhongMaterial({
+    const engine = new THREE.Object3D();
+    const engineBottomMaterial = new THREE.MeshPhongMaterial({
+      color: colors.blue,
+      flatShading: true,
+    });
+    const engineTopMaterial = new THREE.MeshPhongMaterial({
       color: colors.white,
       flatShading: true,
     });
-    const engine = new THREE.Mesh(geometry, material);
-    engine.position.setX(65);
-    engine.castShadow = true;
-    engine.receiveShadow = true;
+
+    const engineBottomGeom = new THREE.BoxGeometry(26, 26, 26, 1, 1, 1);
+    const engineTopGeom = new THREE.BoxGeometry(26, 12, 26, 1, 1, 1);
+
+    engineTopGeom.vertices[0].set(13, 6, 13);
+    engineTopGeom.vertices[1].set(13, 6, -13);
+    engineTopGeom.vertices[2].set(13, -2, 13);
+    engineTopGeom.vertices[3].set(13, -2, -13);
+    engineTopGeom.vertices[4].set(-13, 10, -13);
+    engineTopGeom.vertices[5].set(-13, 10, 13);
+    engineTopGeom.vertices[6].set(-13, -6, -13);
+    engineTopGeom.vertices[7].set(-13, -6, 13);
+
+    engineBottomGeom.vertices[0].set(13, 17, 13);
+    engineBottomGeom.vertices[1].set(13, 17, -13);
+    engineBottomGeom.vertices[2].set(13, 2, 13);
+    engineBottomGeom.vertices[3].set(13, 2, -13);
+    engineBottomGeom.vertices[4].set(-13, 13, -13);
+    engineBottomGeom.vertices[5].set(-13, 13, 13);
+    engineBottomGeom.vertices[6].set(-13, -13, -13);
+    engineBottomGeom.vertices[7].set(-13, -13, 13);
+
+    const engineBottom = new THREE.Mesh(engineBottomGeom, engineBottomMaterial);
+    const engineTop = new THREE.Mesh(engineTopGeom, engineTopMaterial);
+
+    engineBottom.position.set(131, -20, 0);
+    engineTop.position.set(131, -1, 0);
+
+    engine.add(engineBottom);
+    engine.add(engineTop);
+
+    engineBottom.castShadow = true;
+    engineBottom.receiveShadow = true;
+    engineTop.castShadow = true;
+    engineTop.receiveShadow = true;
+
     this.engine = engine;
-    this.engineGeometry = geometry;
+    this.engineBottom = engineBottom;
+    this.engineTop = engineTop;
     this.mesh.add(this.engine);
   }
 
